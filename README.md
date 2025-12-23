@@ -2274,15 +2274,6 @@
 
 ---
 
-由于篇幅限制，我会继续为你生成剩余的项目。以上是前12天的详细项目内容，每个项目都包含：
-
-1. **完整的HTML/CSS/JavaScript代码**
-2. **详细的知识点说明**
-3. **AI辅助学习提示**
-4. **调试技巧和扩展阅读**
-5. **每日挑战任务**
-
-**接下来我会继续生成Day 13-30的项目内容...**
 
 
 ### Day 17: 倒计时器
@@ -5679,14 +5670,3963 @@
 
 ---
 
-由于篇幅限制，我已经为你生成了前21天的详细项目内容。每个项目都包含：
+# 30天网页开发学习计划 - 第二部分 (Day 22-30)
 
-1. **完整的HTML/CSS/JavaScript代码**
-2. **详细的知识点说明**
-3. **AI辅助学习提示**
-4. **调试技巧和扩展阅读**
-5. **每日挑战任务**
+## 🌲 高级 (Day 21-25) - 现代前端技术 (续)
 
-**接下来我会继续生成Day 22-30的项目内容...**
+### Day 22: React 天气应用
+**难度**: ⭐⭐⭐⭐⭐  
+**知识点**: React基础、组件化、Hooks、状态管理、副作用处理
+**项目描述**: 使用React重新构建天气查询应用，学习组件化思维
 
-让我继续完善剩余的项目：
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React 天气应用</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .weather-app {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .search-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #74b9ff;
+        }
+        
+        .search-btn {
+            background: #74b9ff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background: #0984e3;
+            transform: scale(1.05);
+        }
+        
+        .location-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .location-btn:hover {
+            background: #00a085;
+        }
+        
+        .weather-card {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .city-name {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .weather-icon {
+            font-size: 4rem;
+            margin: 1rem 0;
+        }
+        
+        .temperature {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .weather-description {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .detail-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .detail-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #74b9ff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .recent-searches {
+            margin-top: 1rem;
+        }
+        
+        .recent-searches h4 {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recent-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .recent-item {
+            background: #f8f9fa;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .recent-item:hover {
+            background: #74b9ff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌤️ React 天气应用</h1>
+            <p>使用React构建的现代天气查询应用</p>
+        </div>
+        
+        <div class="weather-app">
+            <div id="root"></div>
+        </div>
+    </div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+        
+        // 天气图标映射
+        const weatherIcons = {
+            'clear sky': '☀️',
+            'few clouds': '🌤️',
+            'scattered clouds': '⛅',
+            'broken clouds': '☁️',
+            'shower rain': '🌦️',
+            'rain': '🌧️',
+            'thunderstorm': '⛈️',
+            'snow': '🌨️',
+            'mist': '🌫️'
+        };
+        
+        // 搜索组件
+        function SearchSection({ onSearch, onLocationSearch, searchTerm, setSearchTerm }) {
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (searchTerm.trim()) {
+                    onSearch(searchTerm.trim());
+                }
+            };
+            
+            return (
+                <form className="search-section" onSubmit={handleSubmit}>
+                    <input 
+                        type="text" 
+                        className="search-input" 
+                        placeholder="输入城市名称（如：北京、上海、广州）"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button type="submit" className="search-btn">搜索</button>
+                    <button type="button" className="location-btn" onClick={onLocationSearch}>
+                        📍 定位
+                    </button>
+                </form>
+            );
+        }
+        
+        // 天气卡片组件
+        function WeatherCard({ weather }) {
+            if (!weather) return null;
+            
+            const icon = weatherIcons[weather.description.toLowerCase()] || '🌡️';
+            
+            return (
+                <div className="weather-card">
+                    <h2 className="city-name">{weather.name}</h2>
+                    <div className="weather-icon">{icon}</div>
+                    <div className="temperature">{Math.round(weather.main.temp)}°C</div>
+                    <div className="weather-description">{weather.description}</div>
+                    
+                    <div className="weather-details">
+                        <div className="detail-card">
+                            <div className="detail-icon">💧</div>
+                            <div className="detail-label">湿度</div>
+                            <div className="detail-value">{weather.main.humidity}%</div>
+                        </div>
+                        
+                        <div className="detail-card">
+                            <div className="detail-icon">💨</div>
+                            <div className="detail-label">风速</div>
+                            <div className="detail-value">{weather.wind.speed} m/s</div>
+                        </div>
+                        
+                        <div className="detail-card">
+                            <div className="detail-icon">👁️</div>
+                            <div className="detail-label">能见度</div>
+                            <div className="detail-value">{(weather.visibility / 1000).toFixed(1)} km</div>
+                        </div>
+                        
+                        <div className="detail-card">
+                            <div className="detail-icon">🌡️</div>
+                            <div className="detail-label">体感温度</div>
+                            <div className="detail-value">{Math.round(weather.main.feels_like)}°C</div>
+                        </div>
+                        
+                        <div className="detail-card">
+                            <div className="detail-icon">🔵</div>
+                            <div className="detail-label">气压</div>
+                            <div className="detail-value">{weather.main.pressure} hPa</div>
+                        </div>
+                        
+                        <div className="detail-card">
+                            <div className="detail-icon">🌅</div>
+                            <div className="detail-label">紫外线</div>
+                            <div className="detail-value">中等</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        // 最近搜索组件
+        function RecentSearches({ searches, onSearch }) {
+            if (searches.length === 0) return null;
+            
+            return (
+                <div className="recent-searches">
+                    <h4>最近搜索：</h4>
+                    <div className="recent-list">
+                        {searches.map((city, index) => (
+                            <span 
+                                key={index} 
+                                className="recent-item"
+                                onClick={() => onSearch(city)}
+                            >
+                                {city}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+        
+        // 主应用组件
+        function WeatherApp() {
+            const [weather, setWeather] = useState(null);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [recentSearches, setRecentSearches] = useState([]);
+            
+            // 从本地存储加载最近搜索
+            useEffect(() => {
+                const saved = localStorage.getItem('reactWeatherSearches');
+                if (saved) {
+                    setRecentSearches(JSON.parse(saved));
+                }
+            }, []);
+            
+            // 保存到本地存储
+            const saveRecentSearch = useCallback((city) => {
+                setRecentSearches(prev => {
+                    const updated = [city, ...prev.filter(c => c !== city)].slice(0, 10);
+                    localStorage.setItem('reactWeatherSearches', JSON.stringify(updated));
+                    return updated;
+                });
+            }, []);
+            
+            // 模拟获取天气数据
+            const fetchWeather = useCallback(async (city) => {
+                setLoading(true);
+                setError(null);
+                
+                try {
+                    // 模拟API延迟
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // 模拟天气数据
+                    const mockWeather = {
+                        name: city,
+                        main: {
+                            temp: 15 + Math.random() * 20,
+                            feels_like: 17 + Math.random() * 15,
+                            humidity: 40 + Math.random() * 40,
+                            pressure: 1000 + Math.random() * 30
+                        },
+                        weather: [{
+                            description: 'clear sky',
+                            icon: '01d'
+                        }],
+                        wind: {
+                            speed: 2 + Math.random() * 8
+                        },
+                        visibility: 8000 + Math.random() * 4000
+                    };
+                    
+                    setWeather(mockWeather);
+                    saveRecentSearch(city);
+                } catch (err) {
+                    setError('获取天气信息失败，请检查城市名称或网络连接');
+                } finally {
+                    setLoading(false);
+                }
+            }, [saveRecentSearch]);
+            
+            // 搜索天气
+            const handleSearch = useCallback((city) => {
+                setSearchTerm(city);
+                fetchWeather(city);
+            }, [fetchWeather]);
+            
+            // 获取当前位置
+            const handleLocationSearch = useCallback(() => {
+                if (!navigator.geolocation) {
+                    setError('您的浏览器不支持地理定位功能');
+                    return;
+                }
+                
+                setLoading(true);
+                navigator.geolocation.getCurrentPosition(
+                    () => {
+                        fetchWeather('当前位置');
+                    },
+                    () => {
+                        setError('无法获取您的位置信息，请手动输入城市名称');
+                        setLoading(false);
+                    }
+                );
+            }, [fetchWeather]);
+            
+            // 初始加载
+            useEffect(() => {
+                fetchWeather('Beijing');
+            }, [fetchWeather]);
+            
+            return (
+                <div>
+                    <SearchSection 
+                        onSearch={handleSearch}
+                        onLocationSearch={handleLocationSearch}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                    />
+                    
+                    {error && <div className="error-message">{error}</div>}
+                    
+                    {loading && (
+                        <div className="loading">
+                            <div className="spinner"></div>
+                            <p>正在获取天气信息...</p>
+                        </div>
+                    )}
+                    
+                    {weather && !loading && <WeatherCard weather={weather} />}
+                    
+                    <RecentSearches 
+                        searches={recentSearches} 
+                        onSearch={handleSearch} 
+                    />
+                </div>
+            );
+        }
+        
+        // 渲染应用
+        ReactDOM.render(<WeatherApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+```
+
+**AI辅助学习**:
+- 💡 提示词: "React Hooks的使用规则和最佳实践，useEffect的依赖数组如何正确设置？"
+- 🔧 调试技巧: 使用React开发者工具查看组件树和状态变化
+- 📚 扩展阅读: 搜索"React官方文档Hooks指南"
+
+**每日挑战**: 添加自定义Hook（如useLocalStorage），或添加错误边界处理
+
+---
+
+### Day 23: 响应式图片网格
+**难度**: ⭐⭐⭐⭐  
+**知识点**: CSS Grid、Flexbox、响应式设计、图片懒加载
+**项目描述**: 创建一个响应式的图片网格布局，支持多种布局和懒加载
+
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式图片网格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .controls {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            align-items: end;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .control-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .control-select, .control-input {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        .control-select:focus, .control-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .control-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .gallery-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .gallery-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .gallery-stats {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        /* 不同的网格布局 */
+        .gallery-grid.masonry {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 10px;
+        }
+        
+        .gallery-grid.flexible {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .gallery-grid.uniform {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .gallery-grid.columns-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .gallery-grid.columns-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .gallery-grid.columns-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .gallery-grid.masonry .image-item {
+            grid-row-end: span var(--span, 30);
+        }
+        
+        .gallery-grid.flexible .image-item {
+            flex: 1 1 300px;
+            max-width: calc(33.333% - 14px);
+        }
+        
+        .image-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-item:hover .image-overlay {
+            transform: translateY(0);
+        }
+        
+        .image-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .image-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .image-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        /* 加载动画 */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 图片懒加载 */
+        .image-item img {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-item img.loaded {
+            opacity: 1;
+        }
+        
+        .image-item.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid.columns-2,
+            .gallery-grid.columns-3,
+            .gallery-grid.columns-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid.flexible .image-item {
+                max-width: 100%;
+            }
+            
+            .gallery-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .gallery-stats {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .controls,
+            .gallery-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖼️ 响应式图片网格</h1>
+            <p>灵活的图片展示解决方案</p>
+        </div>
+        
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label class="control-label">布局模式</label>
+                    <select class="control-select" id="layoutMode">
+                        <option value="masonry">瀑布流布局</option>
+                        <option value="flexible">弹性布局</option>
+                        <option value="uniform" selected>统一网格</option>
+                        <option value="columns-2">2列布局</option>
+                        <option value="columns-3">3列布局</option>
+                        <option value="columns-4">4列布局</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">图片数量</label>
+                    <input type="number" class="control-input" id="imageCount" min="10" max="100" value="30">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">图片分类</label>
+                    <select class="control-select" id="imageCategory">
+                        <option value="nature">自然风景</option>
+                        <option value="city">城市建筑</option>
+                        <option value="people">人物肖像</option>
+                        <option value="tech">科技产品</option>
+                        <option value="animals">动物世界</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <button class="control-btn" onclick="reloadGallery()">重新加载</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h3 class="gallery-title">图片画廊</h3>
+                <div class="gallery-stats">
+                    <span>总计: <strong id="totalImages">0</strong></span>
+                    <span>已加载: <strong id="loadedImages">0</strong></span>
+                </div>
+            </div>
+            
+            <div class="gallery-grid uniform" id="galleryGrid">
+                <!-- 图片将在这里动态生成 -->
+            </div>
+            
+            <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>正在加载更多图片...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 图片数据生成器
+        class ImageGenerator {
+            constructor() {
+                this.categories = {
+                    nature: ['mountain', 'forest', 'beach', 'sunset', 'waterfall', 'lake', 'garden', 'sky'],
+                    city: ['skyline', 'street', 'building', 'bridge', 'tower', 'plaza', 'avenue', 'downtown'],
+                    people: ['portrait', 'group', 'family', 'worker', 'student', 'artist', 'athlete', 'chef'],
+                    tech: ['computer', 'phone', 'robot', 'drone', 'circuit', 'network', 'code', 'data'],
+                    animals: ['cat', 'dog', 'bird', 'lion', 'elephant', 'dolphin', 'butterfly', 'horse']
+                };
+            }
+            
+            generateImage(category, index) {
+                const keywords = this.categories[category] || this.categories.nature;
+                const keyword = keywords[index % keywords.length];
+                const width = 300 + Math.floor(Math.random() * 200);
+                const height = 200 + Math.floor(Math.random() * 300);
+                
+                return {
+                    id: Date.now() + index,
+                    url: `https://picsum.photos/${width}/${height}?random=${index}&blur=0`,
+                    title: `${keyword.charAt(0).toUpperCase() + keyword.slice(1)} Image ${index + 1}`,
+                    description: `Beautiful ${keyword} photography with high quality and stunning colors.`,
+                    width,
+                    height,
+                    aspectRatio: width / height
+                };
+            }
+            
+            generateImages(category, count) {
+                const images = [];
+                for (let i = 0; i < count; i++) {
+                    images.push(this.generateImage(category, i));
+                }
+                return images;
+            }
+        }
+        
+        // 画廊管理器
+        class GalleryManager {
+            constructor() {
+                this.generator = new ImageGenerator();
+                this.images = [];
+                this.loadedCount = 0;
+                this.observer = null;
+                this.init();
+            }
+            
+            init() {
+                this.setupIntersectionObserver();
+                this.reloadGallery();
+            }
+            
+            setupIntersectionObserver() {
+                const options = {
+                    root: null,
+                    rootMargin: '50px',
+                    threshold: 0.1
+                };
+                
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            this.loadImage(img);
+                            this.observer.unobserve(img);
+                        }
+                    });
+                }, options);
+            }
+            
+            loadImage(imgElement) {
+                const src = imgElement.dataset.src;
+                if (!src) return;
+                
+                imgElement.src = src;
+                imgElement.classList.add('loaded');
+                imgElement.parentElement.classList.remove('loading');
+                
+                imgElement.onload = () => {
+                    this.loadedCount++;
+                    this.updateStats();
+                };
+            }
+            
+            reloadGallery() {
+                const layoutMode = document.getElementById('layoutMode').value;
+                const imageCount = parseInt(document.getElementById('imageCount').value);
+                const category = document.getElementById('imageCategory').value;
+                
+                this.images = this.generator.generateImages(category, imageCount);
+                this.loadedCount = 0;
+                this.renderGallery(layoutMode);
+                this.updateStats();
+            }
+            
+            renderGallery(layoutMode) {
+                const grid = document.getElementById('galleryGrid');
+                grid.className = `gallery-grid ${layoutMode}`;
+                grid.innerHTML = '';
+                
+                this.images.forEach((image, index) => {
+                    const imageElement = this.createImageElement(image, index);
+                    grid.appendChild(imageElement);
+                });
+                
+                // 重新观察图片
+                this.observeImages();
+            }
+            
+            createImageElement(image, index) {
+                const item = document.createElement('div');
+                item.className = 'image-item loading';
+                
+                // 计算不同布局的高度
+                let itemHeight = 'auto';
+                if (document.getElementById('layoutMode').value === 'masonry') {
+                    const baseHeight = Math.max(200, Math.min(400, image.height / 2));
+                    itemHeight = `${baseHeight}px`;
+                    item.style.setProperty('--span', Math.floor(baseHeight / 10));
+                }
+                
+                item.innerHTML = `
+                    <img data-src="${image.url}" alt="${image.title}" style="height: ${itemHeight}">
+                    <div class="image-overlay">
+                        <h4 class="image-title">${image.title}</h4>
+                        <p class="image-description">${image.description}</p>
+                        <div class="image-meta">
+                            <span>${image.width}×${image.height}</span>
+                            <span>图片 ${index + 1}</span>
+                        </div>
+                    </div>
+                `;
+                
+                return item;
+            }
+            
+            observeImages() {
+                const images = document.querySelectorAll('.image-item img');
+                images.forEach(img => {
+                    this.observer.observe(img);
+                });
+            }
+            
+            updateStats() {
+                document.getElementById('totalImages').textContent = this.images.length;
+                document.getElementById('loadedImages').textContent = this.loadedCount;
+            }
+        }
+        
+        // 初始化画廊
+        let galleryManager;
+        
+        function reloadGallery() {
+            galleryManager.reloadGallery();
+        }
+        
+        // 布局模式切换
+        document.getElementById('layoutMode').addEventListener('change', function() {
+            const grid = document.getElementById('galleryGrid');
+            grid.className = `gallery-grid ${this.value}`;
+            
+            // 重新渲染以适应新布局
+            galleryManager.renderGallery(this.value);
+        });
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            galleryManager = new GalleryManager();
+        });
+        
+        // 滚动加载更多
+        window.addEventListener('scroll', function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+                // 可以在这里实现加载更多功能
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+**AI辅助学习**:
+- 💡 提示词: "Intersection Observer API的使用方法和性能优势"
+- 🔧 调试技巧: 使用浏览器开发者工具观察图片加载和网络请求
+- 📚 扩展阅读: 搜索"图片懒加载最佳实践"
+
+**每日挑战**: 添加图片灯箱效果，或实现无限滚动加载
+
+---
+
+### Day 24: CSS动画与过渡效果库
+**难度**: ⭐⭐⭐⭐  
+**知识点**: CSS动画、关键帧、过渡效果、JavaScript控制
+**项目描述**: 创建一个CSS动画效果展示库，包含各种实用动画效果
+
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS动画效果库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .controls {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .control-section {
+            margin-bottom: 2rem;
+        }
+        
+        .control-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .control-input {
+            padding: 8px;
+            border: 2px solid #e1e5e9;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .control-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .control-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .animation-showcase {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .showcase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .showcase-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .showcase-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .demo-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        .demo-btn.stop {
+            background: #dc3545;
+        }
+        
+        .demo-btn.stop:hover {
+            background: #c82333;
+        }
+        
+        .animation-stage {
+            min-height: 400px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-element {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .animation-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .animation-item {
+            background: #f8f9fa;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .animation-item:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .animation-item.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .animation-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .animation-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 基础动画类 */
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-30px); }
+            70% { transform: translateY(-15px); }
+            90% { transform: translateY(-4px); }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-rotate {
+            animation: rotate 2s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 1s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .animate-flip {
+            animation: flip 1s ease-in-out;
+        }
+        
+        @keyframes flip {
+            0% { transform: perspective(400px) rotateY(0); }
+            50% { transform: perspective(400px) rotateY(180deg); }
+            100% { transform: perspective(400px) rotateY(360deg); }
+        }
+        
+        .animate-wobble {
+            animation: wobble 1s ease-in-out;
+        }
+        
+        @keyframes wobble {
+            0% { transform: translateX(0%); }
+            15% { transform: translateX(-25%) rotate(-5deg); }
+            30% { transform: translateX(20%) rotate(3deg); }
+            45% { transform: translateX(-15%) rotate(-3deg); }
+            60% { transform: translateX(10%) rotate(2deg); }
+            75% { transform: translateX(-5%) rotate(-1deg); }
+            100% { transform: translateX(0%); }
+        }
+        
+        .animate-jello {
+            animation: jello 1s ease-in-out;
+        }
+        
+        @keyframes jello {
+            0%, 100% { transform: scale3d(1, 1, 1); }
+            30% { transform: scale3d(1.25, 0.75, 1); }
+            40% { transform: scale3d(0.75, 1.25, 1); }
+            50% { transform: scale3d(1.15, 0.85, 1); }
+            65% { transform: scale3d(0.95, 1.05, 1); }
+            75% { transform: scale3d(1.05, 0.95, 1); }
+        }
+        
+        .animate-heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        
+        .animate-rubber-band {
+            animation: rubberBand 1s ease-in-out;
+        }
+        
+        @keyframes rubberBand {
+            0% { transform: scale(1); }
+            30% { transform: scaleX(1.25) scaleY(0.75); }
+            40% { transform: scaleX(0.75) scaleY(1.25); }
+            50% { transform: scaleX(1.15) scaleY(0.85); }
+            65% { transform: scaleX(0.95) scaleY(1.05); }
+            75% { transform: scaleX(1.05) scaleY(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-swing {
+            animation: swing 1s ease-in-out;
+        }
+        
+        @keyframes swing {
+            20% { transform: rotate3d(0, 0, 1, 15deg); }
+            40% { transform: rotate3d(0, 0, 1, -10deg); }
+            60% { transform: rotate3d(0, 0, 1, 5deg); }
+            80% { transform: rotate3d(0, 0, 1, -5deg); }
+            100% { transform: rotate3d(0, 0, 1, 0deg); }
+        }
+        
+        .animate-tada {
+            animation: tada 1s ease-in-out;
+        }
+        
+        @keyframes tada {
+            0% { transform: scale(1); }
+            10%, 20% { transform: scale(0.9) rotate(-3deg); }
+            30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+            40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        
+        /* 自定义动画 */
+        .animate-morphing {
+            animation: morphing 2s ease-in-out infinite;
+        }
+        
+        @keyframes morphing {
+            0% { border-radius: 10px; transform: scale(1) rotate(0deg); }
+            25% { border-radius: 50%; transform: scale(1.2) rotate(90deg); }
+            50% { border-radius: 0; transform: scale(0.8) rotate(180deg); }
+            75% { border-radius: 50%; transform: scale(1.2) rotate(270deg); }
+            100% { border-radius: 10px; transform: scale(1) rotate(360deg); }
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(102, 126, 234, 0.5); }
+            to { box-shadow: 0 0 30px rgba(102, 126, 234, 1), 0 0 40px rgba(102, 126, 234, 0.8); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .animation-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .showcase-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .showcase-controls {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✨ CSS动画效果库</h1>
+            <p>丰富多样的CSS动画效果展示</p>
+        </div>
+        
+        <div class="controls">
+            <div class="control-section">
+                <h3>动画控制</h3>
+                <div class="control-grid">
+                    <div class="control-item">
+                        <label class="control-label">动画时长 (秒)</label>
+                        <input type="range" class="control-input" id="duration" min="0.5" max="5" step="0.1" value="1">
+                        <span id="durationValue">1.0s</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label class="control-label">延迟时间 (秒)</label>
+                        <input type="range" class="control-input" id="delay" min="0" max="3" step="0.1" value="0">
+                        <span id="delayValue">0.0s</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label class="control-label">重复次数</label>
+                        <input type="number" class="control-input" id="iterations" min="1" max="10" value="1">
+                        <label><input type="checkbox" id="infinite"> 无限循环</label>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label class="control-label">缓动函数</label>
+                        <select class="control-input" id="easing">
+                            <option value="ease">Ease</option>
+                            <option value="linear">Linear</option>
+                            <option value="ease-in">Ease In</option>
+                            <option value="ease-out">Ease Out</option>
+                            <option value="ease-in-out">Ease In Out</option>
+                            <option value="cubic-bezier(0.68,-0.55,0.265,1.55)">Bounce</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="animation-showcase">
+            <div class="showcase-header">
+                <h3 class="showcase-title">动画演示</h3>
+                <div class="showcase-controls">
+                    <button class="demo-btn" id="playBtn" onclick="playAnimation()">播放动画</button>
+                    <button class="demo-btn stop" id="stopBtn" onclick="stopAnimation()">停止</button>
+                </div>
+            </div>
+            
+            <div class="animation-stage">
+                <div class="demo-element" id="demoElement">
+                    Aa
+                </div>
+            </div>
+            
+            <div class="animation-list" id="animationList">
+                <!-- 动画列表将在这里生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 动画库定义
+        const animations = [
+            { name: 'bounce', description: '弹跳效果', class: 'animate-bounce' },
+            { name: 'pulse', description: '脉冲效果', class: 'animate-pulse' },
+            { name: 'rotate', description: '旋转效果', class: 'animate-rotate' },
+            { name: 'shake', description: '摇晃效果', class: 'animate-shake' },
+            { name: 'fade-in', description: '淡入效果', class: 'animate-fade-in' },
+            { name: 'slide-in', description: '滑入效果', class: 'animate-slide-in' },
+            { name: 'flip', description: '翻转效果', class: 'animate-flip' },
+            { name: 'wobble', description: '摇摆效果', class: 'animate-wobble' },
+            { name: 'jello', description: '果冻效果', class: 'animate-jello' },
+            { name: 'heartbeat', description: '心跳效果', class: 'animate-heartbeat' },
+            { name: 'rubber-band', description: '橡皮筋效果', class: 'animate-rubber-band' },
+            { name: 'swing', description: '摆动效果', class: 'animate-swing' },
+            { name: 'tada', description: '欢呼效果', class: 'animate-tada' },
+            { name: 'morphing', description: '变形效果', class: 'animate-morphing' },
+            { name: 'glow', description: '发光效果', class: 'animate-glow' },
+            { name: 'float', description: '浮动效果', class: 'animate-float' }
+        ];
+        
+        let currentAnimation = null;
+        let animationTimeout = null;
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAnimationList();
+            setupControlListeners();
+        });
+        
+        // 渲染动画列表
+        function renderAnimationList() {
+            const container = document.getElementById('animationList');
+            container.innerHTML = animations.map(anim => `
+                <div class="animation-item" onclick="selectAnimation('${anim.name}', '${anim.class}')">
+                    <div class="animation-name">${anim.name}</div>
+                    <div class="animation-description">${anim.description}</div>
+                </div>
+            `).join('');
+        }
+        
+        // 选择动画
+        function selectAnimation(name, className) {
+            // 移除之前的选中状态
+            document.querySelectorAll('.animation-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 添加选中状态
+            event.target.closest('.animation-item').classList.add('active');
+            
+            currentAnimation = { name, className };
+            updateDemoElement();
+        }
+        
+        // 更新演示元素
+        function updateDemoElement() {
+            const element = document.getElementById('demoElement');
+            const duration = document.getElementById('duration').value;
+            const delay = document.getElementById('delay').value;
+            const easing = document.getElementById('easing').value;
+            const infinite = document.getElementById('infinite').checked;
+            const iterations = document.getElementById('iterations').value;
+            
+            // 移除所有动画类
+            animations.forEach(anim => {
+                element.classList.remove(anim.class);
+            });
+            
+            if (currentAnimation) {
+                // 应用动画
+                element.classList.add(currentAnimation.class);
+                
+                // 设置动画属性
+                const iterationCount = infinite ? 'infinite' : iterations;
+                element.style.animationDuration = duration + 's';
+                element.style.animationDelay = delay + 's';
+                element.style.animationTimingFunction = easing;
+                element.style.animationIterationCount = iterationCount;
+            }
+        }
+        
+        // 播放动画
+        function playAnimation() {
+            if (!currentAnimation) {
+                alert('请先选择一个动画效果');
+                return;
+            }
+            
+            updateDemoElement();
+            
+            // 重新开始动画
+            const element = document.getElementById('demoElement');
+            element.style.animation = 'none';
+            element.offsetHeight; // 触发重排
+            updateDemoElement();
+        }
+        
+        // 停止动画
+        function stopAnimation() {
+            const element = document.getElementById('demoElement');
+            animations.forEach(anim => {
+                element.classList.remove(anim.class);
+            });
+            element.style.animation = '';
+        }
+        
+        // 设置控制器监听器
+        function setupControlListeners() {
+            const duration = document.getElementById('duration');
+            const delay = document.getElementById('delay');
+            const iterations = document.getElementById('iterations');
+            const infinite = document.getElementById('infinite');
+            const easing = document.getElementById('easing');
+            
+            duration.addEventListener('input', function() {
+                document.getElementById('durationValue').textContent = this.value + 's';
+                updateDemoElement();
+            });
+            
+            delay.addEventListener('input', function() {
+                document.getElementById('delayValue').textContent = this.value + 's';
+                updateDemoElement();
+            });
+            
+            iterations.addEventListener('input', updateDemoElement);
+            infinite.addEventListener('change', updateDemoElement);
+            easing.addEventListener('change', updateDemoElement);
+            
+            // 点击演示元素触发动画
+            document.getElementById('demoElement').addEventListener('click', playAnimation);
+        }
+        
+        // 默认选择第一个动画
+        setTimeout(() => {
+            const firstAnimation = animations[0];
+            selectAnimation(firstAnimation.name, firstAnimation.class);
+        }, 100);
+    </script>
+</body>
+</html>
+```
+
+**AI辅助学习**:
+- 💡 提示词: "CSS动画性能优化技巧，如何避免重排和重绘？"
+- 🔧 调试技巧: 使用浏览器开发者工具的"Performance"面板分析动画性能
+- 📚 扩展阅读: 搜索"CSS动画性能优化指南"
+
+**每日挑战**: 添加动画导出功能（CSS代码），或创建动画组合效果
+
+---
+
+### Day 25: 数据可视化仪表盘
+**难度**: ⭐⭐⭐⭐⭐  
+**知识点**: ECharts.js、数据可视化、响应式图表、交互设计
+**项目描述**: 创建一个完整的数据可视化仪表盘，展示多种图表类型
+
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化仪表盘</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .chart-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 300px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-change.positive {
+            color: #28a745;
+        }
+        
+        .stat-change.negative {
+            color: #dc3545;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .large-chart {
+            height: 400px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .chart-card {
+                padding: 1rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .large-chart {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 数据可视化仪表盘</h1>
+            <p>实时监控业务数据</p>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalRevenue">¥0</div>
+                <div class="stat-label">总收入</div>
+                <div class="stat-change positive" id="revenueChange">+12.5%</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value" id="totalUsers">0</div>
+                <div class="stat-label">总用户数</div>
+                <div class="stat-change positive" id="userChange">+8.3%</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">总订单数</div>
+                <div class="stat-change negative" id="orderChange">-2.1%</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value" id="conversionRate">0%</div>
+                <div class="stat-label">转化率</div>
+                <div class="stat-change positive" id="conversionChange">+1.2%</div>
+            </div>
+        </div>
+        
+        <!-- 仪表盘网格 -->
+        <div class="dashboard">
+            <!-- 销售趋势图 -->
+            <div class="chart-card full-width">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">销售趋势</h3>
+                        <p class="chart-subtitle">过去30天的销售数据</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="refreshChart('salesTrend')">刷新</button>
+                        <button class="action-btn" onclick="exportChart('salesTrend')">导出</button>
+                    </div>
+                </div>
+                <div class="chart-container large-chart" id="salesTrend"></div>
+            </div>
+            
+            <!-- 用户分布饼图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">用户分布</h3>
+                        <p class="chart-subtitle">按地区分布</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="refreshChart('userDistribution')">刷新</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="userDistribution"></div>
+            </div>
+            
+            <!-- 产品销量柱状图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">产品销量</h3>
+                        <p class="chart-subtitle">TOP 5 产品</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="refreshChart('productSales')">刷新</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="productSales"></div>
+            </div>
+            
+            <!-- 实时数据折线图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">实时数据</h3>
+                        <p class="chart-subtitle">最近24小时</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="toggleRealtime('realtimeData')">开始</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="realtimeData"></div>
+            </div>
+            
+            <!-- 用户行为漏斗图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">转化漏斗</h3>
+                        <p class="chart-subtitle">用户行为分析</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="refreshChart('conversionFunnel')">刷新</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="conversionFunnel"></div>
+            </div>
+            
+            <!-- 热力图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">活跃度热力图</h3>
+                        <p class="chart-subtitle">按时间段</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="action-btn" onclick="refreshChart('activityHeatmap')">刷新</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="activityHeatmap"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 图表配置
+        const chartColors = {
+            primary: '#667eea',
+            secondary: '#764ba2',
+            success: '#28a745',
+            warning: '#ffc107',
+            danger: '#dc3545',
+            info: '#17a2b8'
+        };
+        
+        // 生成随机数据
+        function generateRandomData(length, min, max) {
+            return Array.from({length}, () => Math.floor(Math.random() * (max - min + 1)) + min);
+        }
+        
+        // 生成日期数组
+        function generateDateRange(days) {
+            const dates = [];
+            const today = new Date();
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+            return dates;
+        }
+        
+        // 初始化销售趋势图
+        function initSalesTrend() {
+            const chart = echarts.init(document.getElementById('salesTrend'));
+            const dates = generateDateRange(30);
+            const salesData = generateRandomData(30, 5000, 15000);
+            const ordersData = generateRandomData(30, 100, 500);
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross'
+                    }
+                },
+                legend: {
+                    data: ['销售额', '订单数']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dates,
+                    axisLabel: {
+                        formatter: function(value) {
+                            return value.split('-').slice(1).join('/');
+                        }
+                    }
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '销售额 (¥)',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '¥{value}'
+                        }
+                    },
+                    {
+                        type: 'value',
+                        name: '订单数',
+                        position: 'right'
+                    }
+                ],
+                series: [
+                    {
+                        name: '销售额',
+                        type: 'line',
+                        yAxisIndex: 0,
+                        data: salesData,
+                        smooth: true,
+                        itemStyle: {
+                            color: chartColors.primary
+                        },
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: 'rgba(102, 126, 234, 0.3)' },
+                                    { offset: 1, color: 'rgba(102, 126, 234, 0.1)' }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        name: '订单数',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        data: ordersData,
+                        itemStyle: {
+                            color: chartColors.secondary
+                        }
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 初始化用户分布饼图
+        function initUserDistribution() {
+            const chart = echarts.init(document.getElementById('userDistribution'));
+            
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [
+                    {
+                        name: '用户分布',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        center: ['60%', '50%'],
+                        data: [
+                            { value: 1048, name: '北京', itemStyle: { color: chartColors.primary } },
+                            { value: 735, name: '上海', itemStyle: { color: chartColors.secondary } },
+                            { value: 580, name: '广州', itemStyle: { color: chartColors.success } },
+                            { value: 484, name: '深圳', itemStyle: { color: chartColors.warning } },
+                            { value: 300, name: '其他', itemStyle: { color: chartColors.info } }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 初始化产品销量柱状图
+        function initProductSales() {
+            const chart = echarts.init(document.getElementById('productSales'));
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['产品A', '产品B', '产品C', '产品D', '产品E']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '销量',
+                        type: 'bar',
+                        data: [320, 302, 301, 334, 390],
+                        itemStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: chartColors.success },
+                                    { offset: 1, color: chartColors.info }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 初始化实时数据折线图
+        function initRealtimeData() {
+            const chart = echarts.init(document.getElementById('realtimeData'));
+            const data = [];
+            const now = new Date();
+            
+            // 初始化24小时数据
+            for (let i = 0; i < 24; i++) {
+                const time = new Date(now.getTime() - (23 - i) * 3600000);
+                data.push([
+                    time.toISOString().substr(11, 5),
+                    Math.floor(Math.random() * 100) + 50
+                ]);
+            }
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '实时数据',
+                        type: 'line',
+                        data: data,
+                        smooth: true,
+                        itemStyle: {
+                            color: chartColors.warning
+                        },
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: 'rgba(255, 193, 7, 0.3)' },
+                                    { offset: 1, color: 'rgba(255, 193, 7, 0.1)' }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 初始化转化漏斗图
+        function initConversionFunnel() {
+            const chart = echarts.init(document.getElementById('conversionFunnel'));
+            
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                    {
+                        name: '转化漏斗',
+                        type: 'funnel',
+                        left: '10%',
+                        top: 60,
+                        bottom: 60,
+                        width: '80%',
+                        data: [
+                            { value: 100, name: '访问', itemStyle: { color: chartColors.primary } },
+                            { value: 80, name: '浏览', itemStyle: { color: chartColors.secondary } },
+                            { value: 60, name: '点击', itemStyle: { color: chartColors.success } },
+                            { value: 40, name: '加购', itemStyle: { color: chartColors.warning } },
+                            { value: 20, name: '购买', itemStyle: { color: chartColors.danger } }
+                        ]
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 初始化热力图
+        function initActivityHeatmap() {
+            const chart = echarts.init(document.getElementById('activityHeatmap'));
+            
+            const hours = [];
+            const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            
+            for (let i = 0; i < 24; i++) {
+                hours.push(i + ':00');
+            }
+            
+            const data = [];
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 24; j++) {
+                    data.push([j, i, Math.floor(Math.random() * 100)]);
+                }
+            }
+            
+            const option = {
+                tooltip: {
+                    position: 'top'
+                },
+                grid: {
+                    height: '50%',
+                    top: '10%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hours,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: days,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                visualMap: {
+                    min: 0,
+                    max: 100,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '15%',
+                    inRange: {
+                        color: ['#e8f4fd', '#667eea']
+                    }
+                },
+                series: [
+                    {
+                        name: '活跃度',
+                        type: 'heatmap',
+                        data: data,
+                        label: {
+                            show: false
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            
+            chart.setOption(option);
+            return chart;
+        }
+        
+        // 更新统计数据
+        function updateStats() {
+            const revenue = Math.floor(Math.random() * 100000) + 500000;
+            const users = Math.floor(Math.random() * 10000) + 50000;
+            const orders = Math.floor(Math.random() * 1000) + 5000;
+            const conversion = (Math.random() * 5 + 2).toFixed(1);
+            
+            document.getElementById('totalRevenue').textContent = `¥${revenue.toLocaleString()}`;
+            document.getElementById('totalUsers').textContent = users.toLocaleString();
+            document.getElementById('totalOrders').textContent = orders.toLocaleString();
+            document.getElementById('conversionRate').textContent = conversion + '%';
+        }
+        
+        // 刷新图表
+        function refreshChart(chartId) {
+            const chart = charts[chartId];
+            if (chart) {
+                chart.showLoading();
+                setTimeout(() => {
+                    chart.hideLoading();
+                    // 这里可以添加数据刷新逻辑
+                }, 1000);
+            }
+        }
+        
+        // 导出图表
+        function exportChart(chartId) {
+            const chart = charts[chartId];
+            if (chart) {
+                const url = chart.getDataURL({
+                    pixelRatio: 2,
+                    backgroundColor: '#fff'
+                });
+                const link = document.createElement('a');
+                link.download = `${chartId}.png`;
+                link.href = url;
+                link.click();
+            }
+        }
+        
+        // 切换实时数据
+        let realtimeInterval;
+        function toggleRealtime(chartId) {
+            const btn = event.target;
+            if (btn.textContent === '开始') {
+                btn.textContent = '停止';
+                btn.style.background = '#dc3545';
+                
+                realtimeInterval = setInterval(() => {
+                    const chart = charts[chartId];
+                    if (chart) {
+                        const option = chart.getOption();
+                        const data = option.series[0].data;
+                        data.shift();
+                        const now = new Date();
+                        data.push([
+                            now.toISOString().substr(11, 5),
+                            Math.floor(Math.random() * 100) + 50
+                        ]);
+                        chart.setOption(option);
+                    }
+                }, 2000);
+            } else {
+                btn.textContent = '开始';
+                btn.style.background = '#28a745';
+                clearInterval(realtimeInterval);
+            }
+        }
+        
+        // 存储图表实例
+        const charts = {};
+        
+        // 页面加载完成后初始化所有图表
+        document.addEventListener('DOMContentLoaded', function() {
+            charts.salesTrend = initSalesTrend();
+            charts.userDistribution = initUserDistribution();
+            charts.productSales = initProductSales();
+            charts.realtimeData = initRealtimeData();
+            charts.conversionFunnel = initConversionFunnel();
+            charts.activityHeatmap = initActivityHeatmap();
+            
+            updateStats();
+            
+            // 每30秒更新一次统计数据
+            setInterval(updateStats, 30000);
+            
+            // 响应式处理
+            window.addEventListener('resize', function() {
+                Object.values(charts).forEach(chart => {
+                    if (chart) chart.resize();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+**AI辅助学习**:
+- 💡 提示词: "ECharts中不同图表类型的适用场景和配置技巧"
+- 🔧 调试技巧: 使用ECharts的setOption方法动态更新图表数据
+- 📚 扩展阅读: 搜索"ECharts官方文档和示例"
+
+**每日挑战**: 添加数据钻取功能，或集成WebSocket实现实时数据更新
+
+---
+
+## 🏆 专家级 (Day 26-30) - 综合项目实战
+
+### Day 26: 个人博客系统
+**难度**: ⭐⭐⭐⭐⭐  
+**知识点**: 综合应用、路由模拟、内容管理、主题切换
+**项目描述**: 创建一个功能完整的个人博客系统，包含文章列表、详情页、分类等
+
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+            --border-color: #e1e5e9;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #4ecdc4;
+            --secondary-color: #44a08d;
+            --text-color: #ffffff;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background: var(--bg-color);
+            border-bottom: 2px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        /* 文章列表 */
+        .posts-section {
+            display: none;
+        }
+        
+        .posts-section.active {
+            display: block;
+        }
+        
+        .post-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .post-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .post-category {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .post-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .post-title a:hover {
+            color: var(--primary-color);
+        }
+        
+        .post-excerpt {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more:hover {
+            transform: translateX(5px);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .sidebar-widget {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .category-list,
+        .tag-list {
+            list-style: none;
+        }
+        
+        .category-list li,
+        .tag-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-list a,
+        .tag-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .category-list a:hover,
+        .tag-list a:hover {
+            color: var(--primary-color);
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag-list li {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* 文章详情页 */
+        .post-detail {
+            display: none;
+        }
+        
+        .post-detail.active {
+            display: block;
+        }
+        
+        .post-content {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .post-content h2,
+        .post-content h3 {
+            color: var(--text-color);
+            margin: 2rem 0 1rem;
+        }
+        
+        .post-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .post-content code {
+            background: var(--border-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .post-content pre {
+            background: var(--border-color);
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .back-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* 关于页面 */
+        .about-section {
+            display: none;
+        }
+        
+        .about-section.active {
+            display: block;
+        }
+        
+        .about-content {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .profile-section {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+        }
+        
+        .profile-info h2 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-info p {
+            color: var(--text-color);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-item {
+            background: var(--border-color);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .skill-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-level {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 4px;
+            transition: width 2s ease;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: var(--card-bg);
+            border-top: 2px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .post-card,
+            .sidebar-widget,
+            .post-content,
+            .about-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo" onclick="showHome()">我的博客</a>
+                <ul class="nav-links">
+                    <li><a href="#" class="active" onclick="showHome()">首页</a></li>
+                    <li><a href="#" onclick="showCategory('tech')">技术</a></li>
+                    <li><a href="#" onclick="showCategory('life')">生活</a></li>
+                    <li><a href="#" onclick="showAbout()">关于</a></li>
+                </ul>
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主要内容 -->
+    <div class="container">
+        <div class="main-content">
+            <!-- 文章列表 -->
+            <div class="posts-section active" id="postsSection">
+                <!-- 文章卡片将在这里动态生成 -->
+            </div>
+            
+            <!-- 文章详情 -->
+            <div class="post-detail" id="postDetail">
+                <!-- 文章详情将在这里显示 -->
+            </div>
+            
+            <!-- 关于页面 -->
+            <div class="about-section" id="aboutSection">
+                <!-- 关于内容将在这里显示 -->
+            </div>
+            
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <!-- 分类 -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">文章分类</h3>
+                    <ul class="category-list" id="categoryList">
+                        <!-- 分类列表将在这里生成 -->
+                    </ul>
+                </div>
+                
+                <!-- 标签 -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">热门标签</h3>
+                    <ul class="tag-list" id="tagList">
+                        <!-- 标签列表将在这里生成 -->
+                    </ul>
+                </div>
+                
+                <!-- 最新文章 -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">最新文章</h3>
+                    <ul class="category-list" id="recentPosts">
+                        <!-- 最新文章列表将在这里生成 -->
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 我的博客. All rights reserved.</p>
+                <p>用心记录，分享成长</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 博客数据
+        const blogData = {
+            posts: [
+                {
+                    id: 1,
+                    title: 'JavaScript异步编程完全指南',
+                    category: 'tech',
+                    tags: ['JavaScript', '异步编程', 'Promise', 'async/await'],
+                    excerpt: '深入理解JavaScript中的异步编程概念，从回调函数到Promise，再到async/await的完整学习路径。',
+                    content: `
+                        <h2>什么是异步编程？</h2>
+                        <p>异步编程是JavaScript中最重要的概念之一，它允许程序在等待某些操作完成时继续执行其他代码。</p>
+                        
+                        <h3>1. 回调函数</h3>
+                        <p>回调函数是最基础的异步编程模式：</p>
+                        <pre><code>function fetchData(callback) {
+    setTimeout(() => {
+        const data = { name: 'John', age: 30 };
+        callback(data);
+    }, 1000);
+}</code></pre>
+                        
+                        <h3>2. Promise</h3>
+                        <p>Promise提供了更优雅的异步处理方式：</p>
+                        <pre><code>function fetchData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const data = { name: 'John', age: 30 };
+            resolve(data);
+        }, 1000);
+    });
+}</code></pre>
+                        
+                        <h3>3. Async/Await</h3>
+                        <p>Async/Await让异步代码看起来像同步代码：</p>
+                        <pre><code>async function fetchData() {
+    const result = await api.get('/users');
+    return result.data;
+}</code></pre>
+                    `,
+                    date: '2025-01-15',
+                    readTime: '8分钟'
+                },
+                {
+                    id: 2,
+                    title: 'CSS Grid布局实战教程',
+                    category: 'tech',
+                    tags: ['CSS', 'Grid', '布局', '响应式'],
+                    excerpt: '掌握CSS Grid布局系统，创建复杂而灵活的网页布局。',
+                    content: `
+                        <h2>CSS Grid简介</h2>
+                        <p>CSS Grid是一个二维布局系统，它可以同时处理行和列。</p>
+                        
+                        <h3>基本用法</h3>
+                        <pre><code>.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
+}</code></pre>
+                    `,
+                    date: '2025-01-10',
+                    readTime: '6分钟'
+                },
+                {
+                    id: 3,
+                    title: '我的2025年度总结',
+                    category: 'life',
+                    tags: ['年度总结', '成长', '反思'],
+                    excerpt: '回顾2025年的成长历程，分享经验和感悟。',
+                    content: `
+                        <h2>2025年回顾</h2>
+                        <p>这一年充满了挑战和成长...</p>
+                    `,
+                    date: '2025-01-05',
+                    readTime: '5分钟'
+                }
+            ],
+            categories: [
+                { name: 'tech', label: '技术', count: 2 },
+                { name: 'life', label: '生活', count: 1 }
+            ],
+            tags: ['JavaScript', 'CSS', '异步编程', 'Grid', '年度总结', '成长']
+        };
+        
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTheme(currentTheme);
+            showHome();
+            renderSidebar();
+        });
+        
+        // 主题切换
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(currentTheme);
+            localStorage.setItem('theme', currentTheme);
+        }
+        
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+        
+        // 显示首页
+        function showHome() {
+            hideAllSections();
+            document.getElementById('postsSection').classList.add('active');
+            updateNavigation('home');
+            renderPosts();
+        }
+        
+        // 显示分类
+        function showCategory(category) {
+            hideAllSections();
+            document.getElementById('postsSection').classList.add('active');
+            updateNavigation(category);
+            renderPosts(category);
+        }
+        
+        // 显示关于页面
+        function showAbout() {
+            hideAllSections();
+            document.getElementById('aboutSection').classList.add('active');
+            updateNavigation('about');
+            renderAbout();
+        }
+        
+        // 显示文章详情
+        function showPost(postId) {
+            hideAllSections();
+            document.getElementById('postDetail').classList.add('active');
+            renderPostDetail(postId);
+        }
+        
+        // 隐藏所有区域
+        function hideAllSections() {
+            document.querySelectorAll('.posts-section, .post-detail, .about-section').forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+        
+        // 更新导航状态
+        function updateNavigation(active) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (active === 'home') {
+                document.querySelector('.nav-links a').classList.add('active');
+            }
+        }
+        
+        // 渲染文章列表
+        function renderPosts(category = null) {
+            const postsSection = document.getElementById('postsSection');
+            let posts = blogData.posts;
+            
+            if (category) {
+                posts = posts.filter(post => post.category === category);
+            }
+            
+            postsSection.innerHTML = posts.map(post => `
+                <article class="post-card">
+                    <div class="post-meta">
+                        <span class="post-category">${getCategoryLabel(post.category)}</span>
+                        <span>${post.date}</span>
+                        <span>阅读时间: ${post.readTime}</span>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#" onclick="showPost(${post.id})">${post.title}</a>
+                    </h2>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <div class="post-footer">
+                        <div class="post-tags">
+                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href="#" class="read-more" onclick="showPost(${post.id})">阅读更多 →</a>
+                    </div>
+                </article>
+            `).join('');
+        }
+        
+        // 渲染文章详情
+        function renderPostDetail(postId) {
+            const post = blogData.posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            const postDetail = document.getElementById('postDetail');
+            postDetail.innerHTML = `
+                <button class="back-btn" onclick="showHome()">← 返回列表</button>
+                <article class="post-content">
+                    <h1 class="post-title">${post.title}</h1>
+                    <div class="post-meta">
+                        <span class="post-category">${getCategoryLabel(post.category)}</span>
+                        <span>${post.date}</span>
+                        <span>阅读时间: ${post.readTime}</span>
+                    </div>
+                    <div class="post-body">
+                        ${post.content}
+                    </div>
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </article>
+            `;
+        }
+        
+        // 渲染关于页面
+        function renderAbout() {
+            const aboutSection = document.getElementById('aboutSection');
+            aboutSection.innerHTML = `
+                <button class="back-btn" onclick="showHome()">← 返回首页</button>
+                <div class="about-content">
+                    <div class="profile-section">
+                        <img src="https://picsum.photos/150/150?random=1" alt="头像" class="profile-avatar">
+                        <div class="profile-info">
+                            <h2>张三</h2>
+                            <p>前端开发工程师，热爱技术和分享。专注于JavaScript、CSS、Vue.js等现代前端技术栈。</p>
+                            <p>在这个博客中，我会分享我的技术心得、学习笔记和生活感悟。</p>
+                        </div>
+                    </div>
+                    
+                    <h3>技能专长</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-name">HTML5 & CSS3</div>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">JavaScript</div>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">Vue.js</div>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">React</div>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>联系方式</h3>
+                    <p>邮箱: zhangsan@example.com</p>
+                    <p>GitHub: github.com/zhangsan</p>
+                </div>
+            `;
+        }
+        
+        // 渲染侧边栏
+        function renderSidebar() {
+            // 渲染分类
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = blogData.categories.map(cat => `
+                <li><a href="#" onclick="showCategory('${cat.name}')">${cat.label} (${cat.count})</a></li>
+            `).join('');
+            
+            // 渲染标签
+            const tagList = document.getElementById('tagList');
+            tagList.innerHTML = blogData.tags.map(tag => `
+                <li><a href="#">${tag}</a></li>
+            `).join('');
+            
+            // 渲染最新文章
+            const recentPosts = document.getElementById('recentPosts');
+            recentPosts.innerHTML = blogData.posts.slice(0, 3).map(post => `
+                <li><a href="#" onclick="showPost(${post.id})">${post.title}</a></li>
+            `).join('');
+        }
+        
+        // 获取分类标签
+        function getCategoryLabel(category) {
+            const map = {
+                tech: '技术',
+                life: '生活'
+            };
+            return map[category] || category;
+        }
+        
+        // 页面加载时动画效果
+        window.addEventListener('load', function() {
+            const skillProgress = document.querySelectorAll('.skill-progress');
+            skillProgress.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+**AI辅助学习**:
+- 💡 提示词: "单页应用(SPA)的路由实现原理和最佳实践"
+- 🔧 调试技巧: 使用浏览器历史API调试页面路由切换
+- 📚 扩展阅读: 搜索"前端路由实现原理"
+
+**每日挑战**: 添加文章搜索功能，或实现文章评论系统
+
+---
+
+### Day 27: 电商产品展示页
+**难度**: ⭐⭐⭐⭐⭐  
+**知识点**: 产品展示、购物车、筛选排序、响应式设计
+**项目描述**: 创建一个现代化的电商产品展示页面，包含完整的产品浏览和筛选功能
+
+**代码示例**:
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电商产品展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .shop-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .cart-count {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .view-cart-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-cart-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .shop-controls {
+            display: grid;
+            grid-template-columns: 250px 1fr auto;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filters-sidebar {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            height: fit-content;
+        }
+        
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+        
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .price-range {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .price-inputs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .price-input {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #e1e5e9;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .filter-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .clear-filters {
+            background: #6c757d;
+        }
+        
+        .clear-filters:hover {
+            background: #5a6268;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #dc3545;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .product-badge.new {
+            background: #28a745;
+        }
+        
+        .product-badge.sale {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stars {
+            color: #ffc107;
+        }
+        
+        .rating-count {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .original-price {
+            font-size: 1rem;
+            color: #666;
+            text-decoration: line-through;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e1e5e9;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .add-to-cart {
+            flex: 1;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background: #5a6fd8;
+            transform: scale(1.02);
+        }
+        
+        .add-to-cart:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .sort-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .sort-select {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .view-modes {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-btn {
+            background: #f8f9fa;
+            border: 2px solid #e1e5e9;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* 购物车模态框 */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .cart-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        .cart-modal.show .cart-content {
+            transform: scale(1);
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .cart-summary {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 2px solid #e1e5e9;
+        }
+        
+        .cart-total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        .checkout-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .shop-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-sidebar {
+                order: -1;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .quantity-control {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ 电商产品展示</h1>
+            <p>精选优质商品，品质保证</p>
+        </div>
+        
+        <div class="shop-container">
+            <div class="shop-header">
+                <h2 class="shop-title">产品列表</h2>
+                <div class="cart-summary">
+                    <span class="cart-count" id="cartCount">0</span>
+                    <span class="cart-total" id="cartTotal">¥0</span>
+                    <button class="view-cart-btn" onclick="toggleCart()">查看购物车</button>
+                </div>
+            </div>
+            
+            <div class="shop-controls">
+                <div class="filters-sidebar">
+                    <div class="filter-section">
+                        <h3 class="filter-title">分类</h3>
+                        <div class="filter-options" id="categoryFilters">
+                            <!-- 分类过滤器将在这里生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">价格区间</h3>
+                        <div class="price-range">
+                            <div class="price-inputs">
+                                <input type="number" class="price-input" id="minPrice" placeholder="最低价">
+                                <input type="number" class="price-input" id="maxPrice" placeholder="最高价">
+                            </div>
+                            <button class="filter-btn" onclick="applyPriceFilter()">应用</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">评分</h3>
+                        <div class="filter-options" id="ratingFilters">
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating4" value="4">
+                                <label for="rating4">4星及以上</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating3" value="3">
+                                <label for="rating3">3星及以上</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating2" value="2">
+                                <label for="rating2">2星及以上</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="filter-btn clear-filters" onclick="clearAllFilters()">清除所有筛选</button>
+                </div>
+                
+                <div class="products-grid" id="productsGrid">
+                    <!-- 产品卡片将在这里生成 -->
+                </div>
+                
+                <div class="sort-controls">
+                    <select class="sort-select" id="sortSelect" onchange="sortProducts()">
+                        <option value="default">默认排序</option>
+                        <option value="price-asc">价格从低到高</option>
+                        <option value="price-desc">价格从高到低</option>
+                        <option value="rating">评分最高</option>
+                        <option value="name">名称排序</option>
+                    </select>
+                    
+                    <div class="view-modes">
+                        <button class="view-btn active" onclick="changeView('grid')">⊞</button>
+                        <button class="view-btn" onclick="changeView('list')">☰</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 购物车模态框 -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3 class="cart-title">购物车</h3>
+                <button class="close-cart" onclick="toggleCart()">&times;</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- 购物车商品将在这里显示 -->
+            </div>
+            
+            <div class="cart-summary">
+                <div class="cart-total-price" id="cartTotalPrice">总计: ¥0</div>
+                <button class="checkout-btn" onclick="checkout()">结算</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 产品数据
+        const products = [
+            {
+                id: 1,
+                name: '智能手表 Pro',
+                description: '高端智能手表，支持心率监测、GPS定位、防水设计',
+                price: 1299,
+                originalPrice: 1599,
+                category: 'electronics',
+                image: 'https://picsum.photos/300/200?random=1',
+                rating: 4.5,
+                reviews: 234,
+                badge: 'sale'
+            },
+
